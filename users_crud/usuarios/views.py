@@ -11,10 +11,10 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action in ['create', 'list', 'retrieve']:
             permission_classes = [permissions.AllowAny]
         else:
-            permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+            permission_classes = [permissions.IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
@@ -27,6 +27,20 @@ class UserViewSet(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return Response(status=204)
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance != request.user:
+            return Response({"detail": "Você não tem permissão para editar este usuário."}, status=403)
+        
+        return super().update(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance != request.user:
+            return Response({"detail": "Você não tem permissão para acessar este usuário."}, status=403)
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
