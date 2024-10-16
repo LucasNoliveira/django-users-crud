@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
 from django.db import models
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, name, password=None, **extra_fields):
         if not email:
@@ -16,6 +17,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, name, password, **extra_fields)
 
+
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
@@ -23,16 +25,8 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    groups = models.ManyToManyField(
-        Group,
-        related_name='userprofile_set',  # Adicionando related_name
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='userprofile_set',  # Adicionando related_name
-        blank=True
-    )
+    groups = models.ManyToManyField(Group, related_name='user_profiles', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='user_profiles', blank=True)
 
     objects = UserManager()
 
@@ -41,3 +35,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    class Meta:
+        verbose_name = "User Profile"
+        verbose_name_plural = "User Profiles"
