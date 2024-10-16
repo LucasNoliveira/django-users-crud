@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import UserProfile
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
@@ -10,13 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        user = UserProfile.objects.create_user(
-            email=validated_data['email'],
-            name=validated_data['name'],
-            password=validated_data['password'],
-            date_of_birth=validated_data.get('date_of_birth')
-        )
-        return user
+        return UserProfile.objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)
@@ -27,3 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+    def validate_email(self, value):
+        if UserProfile.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Um usuário com este email já existe.")
+        return value
