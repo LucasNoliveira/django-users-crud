@@ -73,11 +73,11 @@ Os principais endpoints estão documentados na seção a seguir.
 
 ### Endpoints da API
 #### Autenticação
-* Login:
+* Login: `POST /login/`
   ##### Exemplo de Request:
  ``` {
-  "email": "user@example.com",
-  "password": "sua-senha"
+  "email": "usuario@gmail.com",
+  "password": "senha"
 }
 ```
 
@@ -93,19 +93,19 @@ Os principais endpoints estão documentados na seção a seguir.
 #### Gerenciamento de Usuários
 Para acessar os endpoints a seguir é necessário enviar o token no cabeçalho da requisição 
 
-* Criar usuário (não precisa de JWT): POST /users/
+* Criar usuário (não precisa de JWT): `POST /users/`
 Cria um novo usuário.
 
-* Listar Usuários (não precisa de JWT): GET /users/
+* Listar Usuários (não precisa de JWT): `GET /users/`
 Retorna uma lista de todos os usuários.
 
-* Detalhes de Usuário (não precisa de JWT): GET /users/{id}/
+* Detalhes de Usuário (não precisa de JWT): `GET /users/{id}/`
 Retorna os detalhes de um usuário específico.
 
-* Atualizar Usuário: PUT /users/{id}/
+* Atualizar Usuário: `PUT /users/{id}/`
 Atualiza os dados de um usuário (somente o próprio usuário pode ser atualizado).
 
-* Deletar Usuário: DELETE /users/{id}/
+* Deletar Usuário: `DELETE /users/{id}/`
 Remove um usuário (somente o próprio usuário pode ser deletado).
 
 ## Segunda Parte - Manipulação de HTML Armazenado no Banco
@@ -121,7 +121,7 @@ http://localhost:8000/api/v1/
 ```
 
 ### Endpoints da API
-* Criar Lição: POST /licoes/criar/
+* Criar Lição: `POST /licoes/criar/`
 Cria uma nova lição com título e conteúdo HTML.
 ##### Exemplo de Request:
 ```
@@ -141,7 +141,7 @@ Cria uma nova lição com título e conteúdo HTML.
 
 ```
 
-* Listar Lições: GET /licoes/
+* Listar Lições: `GET /licoes/`
 Retorna uma lista de todas as lições cadastradas no banco de dados.
 
 ##### Exemplo de Response:
@@ -161,7 +161,7 @@ Retorna uma lista de todas as lições cadastradas no banco de dados.
 
 ```
 
-* Editar Conteúdo HTML: PUT /licoes/{id}/editar-html/
+* Editar Conteúdo HTML: `PUT /licoes/{id}/editar-html/`
 Modifica o conteúdo HTML de uma lição existente. Este endpoint pode ser usado para alterar o estilo ou adicionar funções JavaScript ao conteúdo HTML.
 
 ##### Exemplo de Request:
@@ -180,7 +180,7 @@ Modifica o conteúdo HTML de uma lição existente. Este endpoint pode ser usado
 
 ```
 
-* Deletar Lição: DELETE /licoes/{id}/deletar/
+* Deletar Lição: `DELETE /licoes/{id}/deletar/`
 Remove uma lição do banco de dados.
 ##### Exemplo de Response:
 ```
